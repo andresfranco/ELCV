@@ -1,0 +1,5 @@
+{
+  "ConfigFileName": "appsettings.json",
+  "ProjectDirectoryPath": "ELCV.UI",
+  "DBConnectionStringName": "ELCVConnectionString"
+}
