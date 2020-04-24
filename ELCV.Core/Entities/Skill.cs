@@ -10,6 +10,5 @@ namespace ELCV.Core.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public int SkillTypeId { get; set; }
-        public SkillType SkillType { get; set; }
     }
 }

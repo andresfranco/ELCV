@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ELCV.Core.Entities
 {
-    public class SystemParameters
+    public class SystemParameter
     {
         public int Id { get; set; }
         public string ParameterCode { get; set; }

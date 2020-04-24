@@ -10,9 +10,7 @@ namespace ELCV.Core.Entities
         [Key]
         public string CityCode { get; set; }
         public string Name { get; set; }
-        public State State { get; set; }
         public string StateCode { get; set; }
-        public Country Country { get; set; }
         public string CountryCode { get; set; }
     }
 }

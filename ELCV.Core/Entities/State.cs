@@ -11,6 +11,6 @@ namespace ELCV.Core.Entities
         public string StateCode { get; set; }
         public string Name { get; set; }
         public string CountryCode { get; set; }
-        public Country Country { get; set; }
+
     }
 }
