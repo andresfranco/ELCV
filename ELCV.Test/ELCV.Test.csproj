@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ELCV.Core\ELCV.Core.csproj" />
-
+    <ProjectReference Include="..\ELCV.Infrastructure\ELCV.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

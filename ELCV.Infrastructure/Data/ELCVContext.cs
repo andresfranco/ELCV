@@ -22,7 +22,7 @@ namespace ELCV.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            DbContextSettings dbContextSettings = new DbContextSettings(new JSonFilesHandler());
+            DbContextSettings dbContextSettings = new DbContextSettings();
             IConfigurationRoot configuration = dbContextSettings.SetConfigurationSettings();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString((dbContextSettings.GetDataFileSettings()["DBConnectionStringName"])));
             base.OnConfiguring(optionsBuilder);

@@ -8,12 +8,7 @@ namespace ELCV.Infrastructure.Data
 {
     public class DbContextSettings
     {
-        private readonly JSonFilesHandler jsonFileHandler;
-
-        public DbContextSettings(JSonFilesHandler jsonFileHandler)
-        {
-            this.jsonFileHandler = jsonFileHandler;
-        }
+      
         public IConfigurationRoot SetConfigurationSettings()
         {
             Dictionary<string, string> DataFileSettings = GetDataFileSettings();
@@ -26,7 +21,7 @@ namespace ELCV.Infrastructure.Data
             return configuration;
         }
 
-        private static string GetProjectDirectoryPath(string startUpProjectDirectoryName)
+        public string GetProjectDirectoryPath(string startUpProjectDirectoryName)
         {
             string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
             string startUpDirectoryAbsolutePath = solutionDirectory + Path.DirectorySeparatorChar + startUpProjectDirectoryName;
@@ -35,14 +30,16 @@ namespace ELCV.Infrastructure.Data
 
         public Dictionary<string, string> GetDataFileSettings()
         {
-           
-            var directoryPath = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "Data";
-            var fileName = "dataconfig.json";
-            Dictionary<string, string> DataFileSettings = jsonFileHandler.GetJsonFileData(directoryPath, fileName);
+            JSonFilesHandler jsonFileHandler = new JSonFilesHandler();
+            string separator = Path.DirectorySeparatorChar.ToString();
+            string projectDirectoryPath = "ELCV.Infrastructure";
+            string dataFolderName = "Data";
+            string fileName = "dataconfig.json";
+            string fileFullPath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName
+                                  + separator + projectDirectoryPath + separator + dataFolderName;
+            Dictionary<string, string> DataFileSettings = jsonFileHandler.GetJsonFileData(fileFullPath, fileName);
             return DataFileSettings;
         }
-
-       
 
     }
 }
