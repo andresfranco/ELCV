@@ -15,7 +15,7 @@ namespace ELCV.Infrastructure.Data
 {
     public class ELCVContext : DbContext
     {
-        public ELCVContext(DbContextOptions<ELCVContext> options):base(options){}
+        public ELCVContext(DbContextOptions<ELCVContext> options) : base(options) { }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
@@ -27,51 +27,61 @@ namespace ELCV.Infrastructure.Data
         public DbSet<SkillType> SkillTypes { get; set; }
         public DbSet<SystemParameter> SystemParameters { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
-
-
+        public DbSet<ResumeSkill> ResumeSkills { get; set; }
+        public DbSet<PersonSkill> PersonSkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Country>()
-                .HasIndex(u => u.CountryCode)
-                .IsUnique();
+                   .HasIndex(u => u.CountryCode)
+                   .IsUnique();
 
             builder.Entity<City>()
-               .HasIndex(u => u.CityCode)
-               .IsUnique();
+                   .HasIndex(u => u.CityCode)
+                   .IsUnique();
 
             builder.Entity<State>()
-               .HasIndex(u => u.StateCode)
-               .IsUnique();
+                   .HasIndex(u => u.StateCode)
+                   .IsUnique();
 
             builder.Entity<SystemParameter>()
-             .HasIndex(u => u.ParameterCode)
-             .IsUnique();
+                   .HasIndex(u => u.ParameterCode)
+                   .IsUnique();
 
             builder.Entity<WorkExperience>()
-            .HasOne(w => w.Resume)
-            .WithMany(r => r.WorkExperiences)
-            .HasForeignKey(w => w.ResumeForeignKey);
+                   .HasOne(w => w.Resume)
+                   .WithMany(r => r.WorkExperiences)
+                   .HasForeignKey(w => w.ResumeForeignKey);
 
             builder.Entity<ResumeSkill>()
-           .HasOne(rs => rs.Resume)
-           .WithMany(r => r.ResumeSkills)
-           .HasForeignKey(rs => rs.ResumeId);
+                   .HasOne(rs => rs.Resume)
+                   .WithMany(r => r.ResumeSkills)
+                   .HasForeignKey(rs => rs.ResumeId);
 
             builder.Entity<ResumeSkill>()
-                .HasOne(rs => rs.Skill)
-                .WithMany(s => s.ResumeSkills)
-                .HasForeignKey(rs => rs.SkillId);
+                   .HasOne(rs => rs.Skill)
+                   .WithMany(s => s.ResumeSkills)
+                   .HasForeignKey(rs => rs.SkillId);
+
+            builder.Entity<PersonSkill>()
+                   .HasOne(ps => ps.Person)
+                   .WithMany(p => p.PersonSkills)
+                   .HasForeignKey(ps => ps.PersonId);
+
+            builder.Entity<PersonSkill>()
+                   .HasOne(ps => ps.Skill)
+                   .WithMany(s => s.PersonSkills)
+                   .HasForeignKey(ps => ps.SkillId);
         }
 
     }
 
-   
-}   
 
-    
-         
+}
 
-       
- 
+
+
+
+
+
 

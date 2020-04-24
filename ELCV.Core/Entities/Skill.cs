@@ -12,5 +12,6 @@ namespace ELCV.Core.Entities
         public SkillType SkillType { get; set; }
 
         public List<ResumeSkill> ResumeSkills { get; set; }
+        public List<PersonSkill> PersonSkills { get; set; }
     }
 }

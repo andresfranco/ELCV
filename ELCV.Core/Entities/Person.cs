@@ -13,5 +13,6 @@ namespace ELCV.Core.Entities
         public string Phone { get; set; }
         public string PicturePath { get; set; }
         public ICollection<Resume> Resumes { get; set; }
+        public List<PersonSkill> PersonSkills { get; set; }
     }
 }
