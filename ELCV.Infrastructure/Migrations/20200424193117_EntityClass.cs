@@ -2,7 +2,7 @@
 
 namespace ELCV.Infrastructure.Migrations
 {
-    public partial class EntitiesChanges : Migration
+    public partial class EntityClass : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,9 +18,21 @@ namespace ELCV.Infrastructure.Migrations
                 name: "FK_States_Countries_CountryCode1",
                 table: "States");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_States",
+                table: "States");
+
             migrationBuilder.DropIndex(
                 name: "IX_States_CountryCode1",
                 table: "States");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Countries",
+                table: "Countries");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Cities",
+                table: "Cities");
 
             migrationBuilder.DropIndex(
                 name: "IX_Cities_CountryCode1",
@@ -42,29 +54,92 @@ namespace ELCV.Infrastructure.Migrations
                 name: "StateCode1",
                 table: "Cities");
 
+            migrationBuilder.AlterColumn<string>(
+                name: "StateCode",
+                table: "States",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(450)");
+
+            migrationBuilder.AddColumn<long>(
+                name: "Id",
+                table: "States",
+                nullable: false,
+                defaultValue: 0L)
+                .Annotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "CountryCode",
+                table: "Countries",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(450)");
+
+            migrationBuilder.AddColumn<long>(
+                name: "Id",
+                table: "Countries",
+                nullable: false,
+                defaultValue: 0L)
+                .Annotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "CityCode",
+                table: "Cities",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(450)");
+
+            migrationBuilder.AddColumn<long>(
+                name: "Id",
+                table: "Cities",
+                nullable: false,
+                defaultValue: 0L)
+                .Annotation("SqlServer:Identity", "1, 1");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_States",
+                table: "States",
+                column: "Id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Countries",
+                table: "Countries",
+                column: "Id");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Cities",
+                table: "Cities",
+                column: "Id");
+
             migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Street1 = table.Column<string>(nullable: true),
                     Street2 = table.Column<string>(nullable: true),
                     ZipCode = table.Column<int>(nullable: false),
-                    Countrycode = table.Column<string>(nullable: true),
+                    CountryId = table.Column<long>(nullable: true),
                     StateCode = table.Column<string>(nullable: true),
                     CityCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
@@ -79,7 +154,7 @@ namespace ELCV.Infrastructure.Migrations
                 name: "People",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -96,7 +171,7 @@ namespace ELCV.Infrastructure.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -111,7 +186,7 @@ namespace ELCV.Infrastructure.Migrations
                 name: "SkillTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
@@ -125,7 +200,7 @@ namespace ELCV.Infrastructure.Migrations
                 name: "SystemParameters",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ParameterCode = table.Column<string>(nullable: true),
                     ParameterValue = table.Column<string>(nullable: true)
@@ -139,53 +214,67 @@ namespace ELCV.Infrastructure.Migrations
                 name: "Resumes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    PersonId = table.Column<int>(nullable: false)
+                    PersonId = table.Column<int>(nullable: false),
+                    PersonId1 = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Resumes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Resumes_People_PersonId",
-                        column: x => x.PersonId,
+                        name: "FK_Resumes_People_PersonId1",
+                        column: x => x.PersonId1,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WorkExperiences",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    ResumeId = table.Column<int>(nullable: false)
+                    ResumeId = table.Column<int>(nullable: false),
+                    ResumeId1 = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkExperiences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkExperiences_Resumes_ResumeId",
-                        column: x => x.ResumeId,
+                        name: "FK_WorkExperiences_Resumes_ResumeId1",
+                        column: x => x.ResumeId1,
                         principalTable: "Resumes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Resumes_PersonId",
-                table: "Resumes",
-                column: "PersonId");
+                name: "IX_Countries_CountryCode",
+                table: "Countries",
+                column: "CountryCode",
+                unique: true,
+                filter: "[CountryCode] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkExperiences_ResumeId",
+                name: "IX_Addresses_CountryId",
+                table: "Addresses",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resumes_PersonId1",
+                table: "Resumes",
+                column: "PersonId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkExperiences_ResumeId1",
                 table: "WorkExperiences",
-                column: "ResumeId");
+                column: "ResumeId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -214,11 +303,63 @@ namespace ELCV.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "People");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_States",
+                table: "States");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Countries",
+                table: "Countries");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Countries_CountryCode",
+                table: "Countries");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Cities",
+                table: "Cities");
+
+            migrationBuilder.DropColumn(
+                name: "Id",
+                table: "States");
+
+            migrationBuilder.DropColumn(
+                name: "Id",
+                table: "Countries");
+
+            migrationBuilder.DropColumn(
+                name: "Id",
+                table: "Cities");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "StateCode",
+                table: "States",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
             migrationBuilder.AddColumn<string>(
                 name: "CountryCode1",
                 table: "States",
                 type: "nvarchar(450)",
                 nullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "CountryCode",
+                table: "Countries",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "CityCode",
+                table: "Cities",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "CountryCode1",
@@ -231,6 +372,21 @@ namespace ELCV.Infrastructure.Migrations
                 table: "Cities",
                 type: "nvarchar(450)",
                 nullable: true);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_States",
+                table: "States",
+                column: "StateCode");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Countries",
+                table: "Countries",
+                column: "CountryCode");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Cities",
+                table: "Cities",
+                column: "CityCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryCode1",

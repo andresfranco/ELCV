@@ -4,14 +4,16 @@ using ELCV.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ELCV.Infrastructure.Migrations
 {
     [DbContext(typeof(ELCVContext))]
-    partial class ELCVContextModelSnapshot : ModelSnapshot
+    [Migration("20200424193117_EntityClass")]
+    partial class EntityClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,14 +28,14 @@ namespace ELCV.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("CityId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CityCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("CountryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("StateId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StateCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street1")
                         .HasColumnType("nvarchar(max)");
@@ -46,11 +48,7 @@ namespace ELCV.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
-
                     b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
 
                     b.ToTable("Addresses");
                 });
@@ -63,26 +61,18 @@ namespace ELCV.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CityCode")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("StateId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StateCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityCode")
-                        .IsUnique()
-                        .HasFilter("[CityCode] IS NOT NULL");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
 
                     b.ToTable("Cities");
                 });
@@ -94,8 +84,8 @@ namespace ELCV.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AddressId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -104,8 +94,6 @@ namespace ELCV.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.ToTable("Companies");
                 });
@@ -172,36 +160,17 @@ namespace ELCV.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("PersonId")
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("PersonId1")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId1");
 
                     b.ToTable("Resumes");
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.ResumeSkill", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ResumeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SkillId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResumeId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("ResumeSkill");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Skill", b =>
@@ -217,12 +186,10 @@ namespace ELCV.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("SkillTypeId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SkillTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SkillTypeId");
 
                     b.ToTable("Skills");
                 });
@@ -252,22 +219,16 @@ namespace ELCV.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StateCode")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateCode")
-                        .IsUnique()
-                        .HasFilter("[StateCode] IS NOT NULL");
 
                     b.ToTable("States");
                 });
@@ -280,16 +241,12 @@ namespace ELCV.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ParameterCode")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParameterValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ParameterCode")
-                        .IsUnique()
-                        .HasFilter("[ParameterCode] IS NOT NULL");
 
                     b.ToTable("SystemParameters");
                 });
@@ -307,92 +264,38 @@ namespace ELCV.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ResumeForeignKey")
+                    b.Property<int>("ResumeId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ResumeId1")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResumeForeignKey");
+                    b.HasIndex("ResumeId1");
 
                     b.ToTable("WorkExperiences");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Address", b =>
                 {
-                    b.HasOne("ELCV.Core.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
                     b.HasOne("ELCV.Core.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
-
-                    b.HasOne("ELCV.Core.Entities.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId");
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.City", b =>
-                {
-                    b.HasOne("ELCV.Core.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId");
-
-                    b.HasOne("ELCV.Core.Entities.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId");
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.Company", b =>
-                {
-                    b.HasOne("ELCV.Core.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Resume", b =>
                 {
-                    b.HasOne("ELCV.Core.Entities.Person", "Person")
+                    b.HasOne("ELCV.Core.Entities.Person", null)
                         .WithMany("Resumes")
-                        .HasForeignKey("PersonId");
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.ResumeSkill", b =>
-                {
-                    b.HasOne("ELCV.Core.Entities.Resume", "Resume")
-                        .WithMany("ResumeSkills")
-                        .HasForeignKey("ResumeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ELCV.Core.Entities.Skill", "Skill")
-                        .WithMany("ResumeSkills")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.Skill", b =>
-                {
-                    b.HasOne("ELCV.Core.Entities.SkillType", "SkillType")
-                        .WithMany()
-                        .HasForeignKey("SkillTypeId");
-                });
-
-            modelBuilder.Entity("ELCV.Core.Entities.State", b =>
-                {
-                    b.HasOne("ELCV.Core.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("PersonId1");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.WorkExperience", b =>
                 {
                     b.HasOne("ELCV.Core.Entities.Resume", "Resume")
                         .WithMany("WorkExperiences")
-                        .HasForeignKey("ResumeForeignKey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResumeId1");
                 });
 #pragma warning restore 612, 618
         }

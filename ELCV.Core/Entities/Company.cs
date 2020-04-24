@@ -1,14 +1,14 @@
-﻿using System;
+﻿using ELCV.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ELCV.Core.Entities
 {
-    public class Company
+    public class Company : Entity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public int AddressId { get; set; }
+        public Address Address { get; set; }
     }
 }

@@ -28,6 +28,42 @@ namespace ELCV.Infrastructure.Data
         public DbSet<SystemParameter> SystemParameters { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
 
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Country>()
+                .HasIndex(u => u.CountryCode)
+                .IsUnique();
+
+            builder.Entity<City>()
+               .HasIndex(u => u.CityCode)
+               .IsUnique();
+
+            builder.Entity<State>()
+               .HasIndex(u => u.StateCode)
+               .IsUnique();
+
+            builder.Entity<SystemParameter>()
+             .HasIndex(u => u.ParameterCode)
+             .IsUnique();
+
+            builder.Entity<WorkExperience>()
+            .HasOne(w => w.Resume)
+            .WithMany(r => r.WorkExperiences)
+            .HasForeignKey(w => w.ResumeForeignKey);
+
+            builder.Entity<ResumeSkill>()
+           .HasOne(rs => rs.Resume)
+           .WithMany(r => r.ResumeSkills)
+           .HasForeignKey(rs => rs.ResumeId);
+
+            builder.Entity<ResumeSkill>()
+                .HasOne(rs => rs.Skill)
+                .WithMany(s => s.ResumeSkills)
+                .HasForeignKey(rs => rs.SkillId);
+        }
+
     }
 
    

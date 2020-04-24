@@ -1,16 +1,16 @@
-﻿using System;
+﻿using ELCV.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ELCV.Core.Entities
 {
-   public class City
+   public class City:Entity
     {
-        [Key]
         public string CityCode { get; set; }
         public string Name { get; set; }
-        public string StateCode { get; set; }
-        public string CountryCode { get; set; }
+        public State State{ get; set; }
+        public Country Country { get; set; }
     }
 }

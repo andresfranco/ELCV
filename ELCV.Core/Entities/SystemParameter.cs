@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ELCV.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ELCV.Core.Entities
 {
-    public class SystemParameter
+    public class SystemParameter : Entity
     {
-        public int Id { get; set; }
         public string ParameterCode { get; set; }
         public string ParameterValue { get; set; }
     }
