@@ -4,14 +4,16 @@ using ELCV.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ELCV.Infrastructure.Migrations
 {
     [DbContext(typeof(ELCVContext))]
-    partial class ELCVContextModelSnapshot : ModelSnapshot
+    [Migration("20200425041244_EntityAuditFields")]
+    partial class EntityAuditFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
