@@ -5,14 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using ELCV.Core.Entities;
 using ELCV.UI.Common;
+using Microsoft.AspNetCore.Mvc;
+using ELCV.UI.Models.Validators;
 
 namespace ELCV.UI.Models
 {
+
     public class CountryDTO:ModelBase
     {
        
         [Required]
+        [CountryCodeUnique]
+        
         public string CountryCode { get; set; }
+        [Required]
         public string CountryName { get; set; }
 
         public static CountryDTO FromCountry(Country item)
@@ -27,6 +33,8 @@ namespace ELCV.UI.Models
                 ModifiedByUser =item.ModifiedByUser,
                 ModifiedDate   =item.ModifiedDate
             };
-        } 
+        }
+
+       
     }
 }

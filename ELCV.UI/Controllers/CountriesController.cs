@@ -7,6 +7,9 @@ using ELCV.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using AutoMapper;
+using System.Threading.Tasks;
+using ELCV.Core.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,70 +19,115 @@ namespace ELCV.UI.Controllers
     public class CountriesController : BaseApiController
     {
         private readonly EfRepository _repository;
-        public CountriesController(EfRepository repository)
+        private readonly IMapper _mapper;
+        private readonly ApiControllerErrorHandler _errorHandler;
+
+        public CountriesController(EfRepository repository,IMapper mapper, ApiControllerErrorHandler errorHandler)
         {
             _repository = repository;
+            _mapper = mapper;
+            _errorHandler = errorHandler;
         }
 
         // GET: api/Countries/{}
         [HttpGet]
         public IActionResult List()
         {
-            var items = _repository.List<Country>()
+            try 
+            {
+                var countries = _repository.List<Country>()
                             .Select(CountryDTO.FromCountry);
-            return Ok(items);
+                if (countries != null) return Ok(countries);
+                return NotFound();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+            }
+            
         }
 
         // GET: api/Countries/{id}
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
-            var item = CountryDTO.FromCountry(_repository.GetById<Country>(id));
-            return Ok(item);
+            try
+            {
+                var country = CountryDTO.FromCountry(_repository.GetById<Country>(id));
+                return Ok(country);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+            }
+           
         }
 
         // POST: api/Countries
         [HttpPost]
-        public IActionResult Post([FromBody] CountryDTO item)
+        public IActionResult Post([FromBody] CountryDTO countryData)
         {
-            var country= new Country()
-            {
-                CountryCode = item.CountryCode,
-                CountryName = item.CountryName,
-                CreatedDate = DateTimeOffset.UtcNow
-
-            };
-            _repository.Add(country);
-            return Ok(CountryDTO.FromCountry(country));
-        }
-
-        // PUT api/Countries/{id}
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] CountryDTO item)
-        {
-            Country country = _repository.GetById<Country>(id);
-            if (country == null) return BadRequest("BadRequest");
-            if (country.Id == id)
+            try
+            {    
+                if (ModelState.IsValid)
                 {
-                    country.CountryCode = item.CountryCode;
-                    country.CountryName = item.CountryName;
-                    country.ModifiedDate = DateTimeOffset.UtcNow;
-                    _repository.Update(country);
-
-                    return Ok(CountryDTO.FromCountry(country));
+                    var newCountry = _mapper.Map<CountryDTO, Country>(countryData);
+                    newCountry.CreatedDate = DateTimeOffset.UtcNow;
+                    _repository.Add(newCountry);
+                    return Ok(newCountry);
                 }
-               
-              return BadRequest("Bad Request");
+                 return Json(ModelState);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Bad request"+ex.Message);
+            }
+        
         }
+
+        // PUT api/Countries
+        [HttpPut]
+        public IActionResult Put([FromBody] CountryDTO countryData)
+        {
+            try
+            {
+                var countryEntity = _repository.GetById<Country>((int)countryData.Id);
+                if (countryEntity == null) return NotFound(_errorHandler.JsonErrorMessage("Invalid Model Data"));
+
+                if (ModelState.IsValid)
+                {
+                    var updatedCountry = _mapper.Map<CountryDTO, Country>(countryData,countryEntity);
+                    updatedCountry.ModifiedDate = DateTimeOffset.UtcNow;
+                    _repository.Update(updatedCountry);
+                    return Ok(CountryDTO.FromCountry(updatedCountry));
+                }
+                return Json(ModelState);
+              
+               
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+            }
+            
+        }
+
+       
 
         // DELETE api/Countries/{id}
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Country country = _repository.GetById<Country>(id);
-            if (country == null) return BadRequest("Bad Request");
-           _repository.Delete(country);
-            return Ok("Record deleted");
+            try 
+            {
+                Country country = _repository.GetById<Country>(id);
+                if (country == null) return BadRequest(_errorHandler.JsonErrorMessage("Model data null"));
+                _repository.Delete(country);
+                return Ok("Record deleted");
+            }
+            catch(Exception ex) {
+                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+            }
             
         }
 
