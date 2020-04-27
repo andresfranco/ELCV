@@ -29,7 +29,7 @@ namespace ELCV.UI.Controllers
             _mapper = mapper;
          }
 
-        // GET: api/Countries/{}
+        // GET: api/Countries
         [HttpGet]
         public IActionResult List()
         {
