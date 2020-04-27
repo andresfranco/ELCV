@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ELCV.Core.Common;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ELCV.UI.WebApi.Common
 {
@@ -6,5 +8,17 @@ namespace ELCV.UI.WebApi.Common
     [ApiController]
     public abstract class BaseApiController : Controller
     {
+        public  ApiControllerErrorHandler _errorHandler;
+        public BaseApiController(ApiControllerErrorHandler errorHandler)
+        {
+            _errorHandler = errorHandler;
+        }
+        public object CheckValidEntity(object entity)
+        {
+            if (entity!= null)
+            return NotFound(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
+            return entity;
+        } 
+      
     }
 }

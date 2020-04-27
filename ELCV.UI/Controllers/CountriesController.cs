@@ -10,6 +10,7 @@ using System;
 using AutoMapper;
 using System.Threading.Tasks;
 using ELCV.Core.Common;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,14 +21,13 @@ namespace ELCV.UI.Controllers
     {
         private readonly EfRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ApiControllerErrorHandler _errorHandler;
+      
 
-        public CountriesController(EfRepository repository,IMapper mapper, ApiControllerErrorHandler errorHandler)
+        public CountriesController(EfRepository repository,IMapper mapper, ApiControllerErrorHandler _errorHandler) :base(_errorHandler)
         {
             _repository = repository;
             _mapper = mapper;
-            _errorHandler = errorHandler;
-        }
+         }
 
         // GET: api/Countries/{}
         [HttpGet]
@@ -35,14 +35,12 @@ namespace ELCV.UI.Controllers
         {
             try 
             {
-                var countries = _repository.List<Country>()
-                            .Select(CountryDTO.FromCountry);
-                if (countries != null) return Ok(countries);
-                return NotFound();
+                var countries = CheckValidEntity(_repository.List<Country>().Select(CountryDTO.FromCountry));
+                return Ok(countries);
             }
             catch(Exception ex)
             {
-                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
             
         }
@@ -53,12 +51,12 @@ namespace ELCV.UI.Controllers
         {
             try
             {
-                var country = CountryDTO.FromCountry(_repository.GetById<Country>(id));
-                return Ok(country);
+               var country = (Country)CheckValidEntity(_repository.GetById<Country>(id));
+               return Ok(country);
             }
             catch (Exception ex)
             {
-                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
            
         }
@@ -80,7 +78,7 @@ namespace ELCV.UI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Bad request"+ex.Message);
+                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
         
         }
@@ -91,28 +89,23 @@ namespace ELCV.UI.Controllers
         {
             try
             {
-                var countryEntity = _repository.GetById<Country>((int)countryData.Id);
-                if (countryEntity == null) return NotFound(_errorHandler.JsonErrorMessage("Invalid Model Data"));
+                var country = (Country)CheckValidEntity(_repository.GetById<Country>((int)countryData.Id));
 
                 if (ModelState.IsValid)
                 {
-                    var updatedCountry = _mapper.Map<CountryDTO, Country>(countryData,countryEntity);
+                    var updatedCountry = _mapper.Map<CountryDTO, Country>(countryData,country);
                     updatedCountry.ModifiedDate = DateTimeOffset.UtcNow;
                     _repository.Update(updatedCountry);
                     return Ok(CountryDTO.FromCountry(updatedCountry));
                 }
-                return Json(ModelState);
-              
-               
+                return Json(ModelState);       
             }
             catch(Exception ex)
             {
-                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
             
         }
-
-       
 
         // DELETE api/Countries/{id}
         [HttpDelete("{id}")]
@@ -120,13 +113,12 @@ namespace ELCV.UI.Controllers
         {
             try 
             {
-                Country country = _repository.GetById<Country>(id);
-                if (country == null) return BadRequest(_errorHandler.JsonErrorMessage("Model data null"));
+                var country=(Country)CheckValidEntity(_repository.GetById<Country>(id)) ;
                 _repository.Delete(country);
-                return Ok("Record deleted");
+                return Ok(_errorHandler.JsonErrorMessage((int)HttpStatusCode.OK));
             }
             catch(Exception ex) {
-                return BadRequest(_errorHandler.JsonErrorMessage(ex.Message));
+                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
             
         }
