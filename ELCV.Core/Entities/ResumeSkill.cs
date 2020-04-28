@@ -7,9 +7,9 @@ namespace ELCV.Core.Entities
 {
     public class ResumeSkill:Entity
     {
-        public long ResumeId { get; set; }
+        public int ResumeId { get; set; }
         public Resume Resume { get; set; }
-        public long SkillId { get; set; }
+        public int SkillId { get; set; }
         public Skill Skill { get; set; }
     }
 }

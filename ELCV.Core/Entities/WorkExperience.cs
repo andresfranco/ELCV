@@ -9,7 +9,7 @@ namespace ELCV.Core.Entities
     {        
         public string CompanyName { get; set; }
         public string Description { get; set; }
-        public long ResumeForeignKey { get; set; }
+        public int ResumeForeignKey { get; set; }
         public Resume Resume { get; set; }
     }
 }

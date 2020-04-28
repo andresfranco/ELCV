@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELCV.Infrastructure.Migrations
 {
     [DbContext(typeof(ELCVContext))]
-    [Migration("20200424203351_PersonSkills")]
-    partial class PersonSkills
+    [Migration("20200427232549_CreateEntities")]
+    partial class CreateEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,19 +23,31 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.Address", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("CityId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
 
-                    b.Property<long?>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
 
-                    b.Property<long?>("StateId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street1")
                         .HasColumnType("nvarchar(max)");
@@ -59,22 +71,34 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.City", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CityCode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<long?>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("StateId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -91,13 +115,25 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.Company", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AddressId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -114,9 +150,9 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.Country", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CountryCode")
@@ -124,6 +160,18 @@ namespace ELCV.Infrastructure.Migrations
 
                     b.Property<string>("CountryName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -136,10 +184,16 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.Person", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -149,6 +203,12 @@ namespace ELCV.Infrastructure.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
@@ -163,16 +223,28 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.PersonSkill", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("PersonId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("SkillId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -180,24 +252,36 @@ namespace ELCV.Infrastructure.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("PersonSkill");
+                    b.ToTable("PersonSkills");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Resume", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("PersonId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("PersonId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -208,16 +292,28 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.ResumeSkill", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ResumeId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("SkillId")
-                        .HasColumnType("bigint");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("ResumeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -225,24 +321,36 @@ namespace ELCV.Infrastructure.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("ResumeSkill");
+                    b.ToTable("ResumeSkills");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Skill", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("SkillTypeId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("SkillTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -253,13 +361,25 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.SkillType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -271,13 +391,25 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.State", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -298,10 +430,22 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.SystemParameter", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ParameterCode")
                         .HasColumnType("nvarchar(450)");
@@ -320,19 +464,31 @@ namespace ELCV.Infrastructure.Migrations
 
             modelBuilder.Entity("ELCV.Core.Entities.WorkExperience", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ResumeForeignKey")
-                        .HasColumnType("bigint");
+                    b.Property<string>("ModifiedByUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("ResumeForeignKey")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -11,6 +11,7 @@ using AutoMapper;
 using System.Reflection;
 using ELCV.Core.Common;
 using Microsoft.AspNetCore.Http;
+using ELCV.Core.Interfaces;
 
 namespace ELCV.UI
 {
@@ -30,9 +31,10 @@ namespace ELCV.UI
             services.AddDbContext<ELCVContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("ELCVConnectionString")));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<EfRepository>();
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncRepository<>));
+            services.AddScoped<CountryRepository>();
             services.AddSingleton<ApiControllerErrorHandler>();
-           
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

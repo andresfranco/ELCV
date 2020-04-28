@@ -10,7 +10,7 @@ namespace ELCV.Core.Common
 {
     public abstract class Entity : IEquatable<Entity>
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string CreatedByUser { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public string ModifiedByUser { get; set; }
