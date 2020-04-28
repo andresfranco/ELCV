@@ -4,14 +4,16 @@ using ELCV.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ELCV.Infrastructure.Migrations
 {
     [DbContext(typeof(ELCVContext))]
-    partial class ELCVContextModelSnapshot : ModelSnapshot
+    [Migration("20200428194616_CountryStateCityChanges")]
+    partial class CountryStateCityChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +79,7 @@ namespace ELCV.Infrastructure.Migrations
                     b.Property<string>("CityCode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedByUser")
@@ -95,7 +97,7 @@ namespace ELCV.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StateId")
+                    b.Property<int?>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -514,15 +516,11 @@ namespace ELCV.Infrastructure.Migrations
                 {
                     b.HasOne("ELCV.Core.Entities.Country", "Country")
                         .WithMany("Cities")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("ELCV.Core.Entities.State", "State")
                         .WithMany("Cities")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StateId");
                 });
 
             modelBuilder.Entity("ELCV.Core.Entities.Company", b =>
@@ -581,7 +579,7 @@ namespace ELCV.Infrastructure.Migrations
                     b.HasOne("ELCV.Core.Entities.Country", "Country")
                         .WithMany("States")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

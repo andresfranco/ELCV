@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Reflection;
 using ELCV.Core.Common;
-using Microsoft.AspNetCore.Http;
 using ELCV.Core.Interfaces;
+using ELCV.Infrastructure.Data.Repositories;
 
 namespace ELCV.UI
 {
@@ -33,6 +32,8 @@ namespace ELCV.UI
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncRepository<>));
             services.AddScoped<CountryRepository>();
+            services.AddScoped<StateRepository>();
+            services.AddScoped<CityRepository>();
             services.AddSingleton<ApiControllerErrorHandler>();
 
             // In production, the Angular files will be served from this directory

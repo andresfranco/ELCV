@@ -35,11 +35,29 @@ namespace ELCV.Infrastructure.Data
             builder.Entity<Country>()
                    .HasIndex(u => u.CountryCode)
                    .IsUnique();
-
+            builder.Entity<Country>()
+                    .HasMany(c => c.States)
+                    .WithOne(s => s.Country);
+            builder.Entity<Country>()
+                   .HasMany(c => c.Cities)
+                   .WithOne(ci => ci.Country);
+            builder.Entity<State>()
+                   .HasOne(s =>s.Country)
+                   .WithMany(c =>c.States).Metadata.DeleteBehavior = DeleteBehavior.Restrict;      
+            builder.Entity<State>()
+                   .HasMany(ci => ci.Cities)
+                   .WithOne(s => s.State);
+            builder.Entity<City>()
+                  .HasOne(ci => ci.Country)
+                  .WithMany(c => c.Cities).Metadata.DeleteBehavior = DeleteBehavior.Restrict;
+                
+            builder.Entity<City>()
+                 .HasOne(ci => ci.State)
+                 .WithMany(s => s.Cities)
+                 .IsRequired();
             builder.Entity<City>()
                    .HasIndex(u => u.CityCode)
                    .IsUnique();
-
             builder.Entity<State>()
                    .HasIndex(u => u.StateCode)
                    .IsUnique();

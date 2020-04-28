@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ELCV.Infrastructure.Data
+namespace ELCV.Infrastructure.Data.Repositories
 {
     public class EfAsyncRepository<T> : IAsyncRepository<T> where T : class
     {

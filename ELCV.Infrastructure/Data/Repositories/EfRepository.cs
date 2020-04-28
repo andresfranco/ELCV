@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ELCV.Infrastructure.Data
+namespace ELCV.Infrastructure.Data.Repositories
 {
     public class EfRepository : IRepository
     {

@@ -1,17 +1,14 @@
 ﻿using ELCV.UI.WebApi.Common;
 using ELCV.Core.Entities;
-using ELCV.Core.Interfaces;
 using ELCV.UI.Models;
-using ELCV.UI.Filters;
-using ELCV.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System;
 using AutoMapper;
 using System.Threading.Tasks;
 using ELCV.Core.Common;
 using System.Net;
 using System.Collections.Generic;
+using ELCV.Infrastructure.Data.Repositories;
 
 namespace ELCV.UI.Controllers
 {
