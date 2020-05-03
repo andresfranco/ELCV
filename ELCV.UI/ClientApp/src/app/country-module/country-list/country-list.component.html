@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="errorMessage"
+         class="alert alert-danger">
+      Error: {{ errorMessage }}
+    </div>
+    <div class="table-responsive">
+      <table class="table mb-0"
+             *ngIf="countries && countries.length">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let country of countries">
+            <td>{{ country.countryCode }}</td>
+            <td>{{ country.countryName }}</td>
+
+            <td>
+              <button class="btn btn-outline-primary btn-sm">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -29,8 +29,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\country-module\Country.ts" />
+    <None Remove="ClientApp\src\app\shared\EntityClassBase.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ELCV.Core\ELCV.Core.csproj" />
     <ProjectReference Include="..\ELCV.Infrastructure\ELCV.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\country-module\country.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\EntityClassBase.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
