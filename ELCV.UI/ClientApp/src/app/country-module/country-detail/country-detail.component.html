@@ -1,1 +1,41 @@
-<p>country-detail works!</p>
+<div class="card">
+  <div class="card-header"
+       *ngIf="product">
+    {{pageTitle + ": " + country.countryName}}
+  </div>
+  <div class="alert alert-danger"
+       *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+  <div class="card-body"
+       *ngIf="country">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-3">Country Code:</div>
+          <div class="col-md-6">{{country.countryCode}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Name:</div>
+          <div class="col-md-6">{{country.countryName}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <button class="btn btn-outline-secondary mr-3"
+                style="width:80px"
+                (click)="onBack()">
+          <i class="fa fa-chevron-left"></i> Back
+        </button>
+        <button class="btn btn-outline-primary"
+                style="width:80px"
+                [routerLink]="['/countries', country.id, 'edit']">
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</div>

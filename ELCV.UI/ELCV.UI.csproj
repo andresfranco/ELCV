@@ -31,6 +31,11 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\country-module\Country.ts" />
     <None Remove="ClientApp\src\app\shared\EntityClassBase.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-validator\generic-message-data.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-validator\generic-validation-messages.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-validator\generic-validator.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-validator\number.validator.ts" />
+    <None Remove="ClientApp\src\app\shared\IGenericMessage.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +46,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\EntityClassBase.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-message-data.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-message.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-validation-messages.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-validator.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\number.validator.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

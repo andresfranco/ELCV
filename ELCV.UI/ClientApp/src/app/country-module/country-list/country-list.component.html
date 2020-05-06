@@ -4,7 +4,9 @@
   </div>
 
   <div class="card-body">
-
+    <button class="btn btn-outline-primary btn-sm" [routerLink]="['/countries', 0, 'edit']">
+      New
+    </button>
     <div *ngIf="errorMessage"
          class="alert alert-danger">
       Error: {{ errorMessage }}
@@ -22,10 +24,13 @@
         <tbody>
           <tr *ngFor="let country of countries">
             <td>{{ country.countryCode }}</td>
-            <td>{{ country.countryName }}</td>
+            <td><a [routerLink]="['/countries', country.id]">
+                {{ country.countryName }}
+                </a>
+            </td>
 
             <td>
-              <button class="btn btn-outline-primary btn-sm">
+              <button class="btn btn-outline-primary btn-sm" [routerLink]="['/countries', country.id, 'edit']">
                 Edit
               </button>
             </td>

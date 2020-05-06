@@ -20,6 +20,66 @@ export class CountryService{
       )
 
   }
+  private initializeCountry(): Country {
+    // Return an initialized object
+    return {
+      id: 0,
+      createdByUser: null,
+      createdDate: null,
+      modifiedByUser: null,
+      modifiedDate: null,
+      countryCode: null,
+      countryName: null
+    };
+  }
+  getCountry(id: number): Observable<Country> {
+    if (id === 0) {
+      return of(this.initializeCountry());
+    }
+    const url = `${this.countriesUrl}/${id}`;
+    return this.http.get<Country>(url)
+      .pipe(
+        tap(data => console.log('getCountry: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  createCountry(country: Country): Observable<Country> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    country.id = 0;
+    this.deleteObjectDateProperties(country);
+    return this.http.post<Country>(this.countriesUrl, country, { headers })
+      .pipe(
+        tap(data => console.log('createCountry: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteCountry(id: number): Observable<{}> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.countriesUrl}/${id}`;
+    return this.http.delete<Country>(url, { headers })
+      .pipe(
+        tap(data => console.log('deleteCountry: ' + id)),
+        catchError(this.handleError)
+      );
+  }
+
+  updateCountry(country: Country): Observable<Country> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Country>(this.countriesUrl, country, { headers })
+      .pipe(
+        tap(() => console.log('updateCountry: ' + country.id)),
+        // Return the Country on an update
+        map(() => country),
+        catchError(this.handleError)
+      );
+  }
+
+  private deleteObjectDateProperties(object:any) {
+    delete object.createdDate; 
+    delete object.modifiedDate;
+  }
 
   private handleError(err) {
     // in a real world app, we may send the server to some remote logging infrastructure

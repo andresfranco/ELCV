@@ -1,0 +1,1 @@
+{"version":3,"file":"generic-message-data.js","sourceRoot":"","sources":["generic-message-data.ts"],"names":[],"mappings":";;AAEA;IAAA;IAWA,CAAC;IATC,wCAAU,GAAV;QACE,IAAM,mBAAmB,GACvB;YACE,EAAE,IAAI,EAAE,KAAK,EAAE,IAAI,EAAE,oBAAoB,EAAE,YAAY,EAAE,uCAAuC,EAAE;SACnG,CAAC;QACJ,OAAO,mBAAmB,CAAC;IAC7B,CAAC;IAGH,0BAAC;AAAD,CAAC,AAXD,IAWC;AAXY,kDAAmB"}
