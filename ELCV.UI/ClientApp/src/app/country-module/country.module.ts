@@ -7,7 +7,6 @@ import { CountryDetailComponent } from './country-detail/country-detail.componen
 import { SharedModule } from '../shared/shared.module';
 import { CountryEditComponent } from './country-edit/country-edit.component';
 
-
 @NgModule({
   declarations: [CountryListComponent, CountryDetailComponent, CountryEditComponent],
   imports: [
@@ -23,6 +22,7 @@ import { CountryEditComponent } from './country-edit/country-edit.component';
       
     ]),
     SharedModule
+  
   ]
 })
 export class CountryModule { }

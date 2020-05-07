@@ -12,6 +12,7 @@ export class CountryDetailComponent implements OnInit
 {
   pageTitle = 'Country Detail';
   errorMessage = '';
+  alertErrorMessage = { title: "", errorMessage:""}
   country: Country | undefined;
 
   constructor(private route: ActivatedRoute,
@@ -28,9 +29,12 @@ export class CountryDetailComponent implements OnInit
   }
 
   getCountry(id: number) {
-    this.countryService.getCountry(id).subscribe({
-      next: country => this.country = country,
-      error: err => this.errorMessage = err
+    this.countryService.getCountry(id).subscribe(data => {
+      this.country = data
+    }, error => {
+        this.alertErrorMessage.title = "Error:";
+        error.statusCode == "404" ?this.alertErrorMessage.errorMessage = "Country Not found"
+          : this.alertErrorMessage.errorMessage = "Unexpected Error: Please contact your system administrator";
     });
   }
 

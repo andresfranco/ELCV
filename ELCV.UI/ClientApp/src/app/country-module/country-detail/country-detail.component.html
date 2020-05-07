@@ -1,12 +1,9 @@
 <div class="card">
   <div class="card-header"
-       *ngIf="product">
+       *ngIf="country">
     {{pageTitle + ": " + country.countryName}}
   </div>
-  <div class="alert alert-danger"
-       *ngIf="errorMessage">
-    {{errorMessage}}
-  </div>
+  <app-error-alert *ngIf="alertErrorMessage.errorMessage" [alertErrorMessage]="alertErrorMessage"></app-error-alert>
   <div class="card-body"
        *ngIf="country">
     <div class="row">
