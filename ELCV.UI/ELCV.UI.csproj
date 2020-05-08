@@ -29,9 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <None Remove="ClientApp\src\app\country-module\Country.ts" />
+    <None Remove="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
+    <None Remove="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModal.ts" />
+    <None Remove="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModalLabel.ts" />
     <None Remove="ClientApp\src\app\shared\EntityClassBase.ts" />
     <None Remove="ClientApp\src\app\shared\error-alert\AlertError.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-labels\generic-labels.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-messages\generic-messages.ts" />
+    <None Remove="ClientApp\src\app\shared\generic-routes\generic-routes.ts" />
     <None Remove="ClientApp\src\app\shared\generic-validator\generic-message-data.ts" />
     <None Remove="ClientApp\src\app\shared\generic-validator\generic-validation-messages.ts" />
     <None Remove="ClientApp\src\app\shared\generic-validator\generic-validator.ts" />
@@ -46,9 +53,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModal.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModalLabel.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\EntityClassBase.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\error-alert\AlertError.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-labels\generic-labels.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-messages\generic-messages.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\generic-routes\generic-routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-message-data.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-message.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-validation-messages.ts" />

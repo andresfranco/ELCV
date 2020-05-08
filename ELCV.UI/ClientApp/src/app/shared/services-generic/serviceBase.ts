@@ -1,6 +1,6 @@
 import { throwError, Observable, of } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 
 export  class ServiceBase<T> {
   public serviceUrl: string;
@@ -25,19 +25,27 @@ export  class ServiceBase<T> {
     return this.http.get<T[]>(this.serviceUrl).pipe(catchError(this.handleError));
   }
 
-  getById(id, initializeEntity: Function) {
-    if (id === 0) {
-      return of(initializeEntity());
-    }
+  getById(id): Observable<T>{
     const url = `${this.serviceUrl}/${id}`;
-    return this.http.get(url).pipe(catchError(this.handleError));
+    return this.http.get<T>(url).pipe(catchError(this.handleError));
   }
-  addNew(entity:any): Observable<T> {
+  create(entity:any): Observable<T> {
     const headers = this.jsonHeaders;
     entity.id = 0;
     this.deleteObjectDateProperties(entity);
-    return this.http.post<T>(this.serviceUrl, entity, { headers })
-      .pipe(catchError(this.handleError));
+    return this.http.post<T>(this.serviceUrl, entity, { headers }).pipe(catchError(this.handleError));
   }
+
+  update(entity:any): Observable<T> {
+    const headers = this.jsonHeaders;
+    return this.http.put<T>(this.serviceUrl, entity, { headers }).pipe(map(() => entity), catchError(this.handleError));                       
+  }
+
+  delete(id: number): Observable<{}> {
+    const headers = this.jsonHeaders;
+    const url = `${this.serviceUrl}/${id}`;
+    return this.http.delete<T>(url, { headers }).pipe(catchError(this.handleError)); 
+  }
+
  
 }

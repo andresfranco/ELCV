@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">{{modalData.title}}</h4>
+  <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>{{modalData.deleteQuestion}} {{modalData.recordName}}?</strong></p>
+  <p>
+    {{modalData.deletPrincipalMessage}}
+    <span class="text-danger">{{modalData.deleteSecondaryMessage}}</span>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">{{modalLabels.cancelButtonLabel}}</button>
+  <button type="button" class="btn btn-danger" (click)=" onConfirm()">{{modalLabels.confirmDeleteButtonLabel}}</button>
+</div>

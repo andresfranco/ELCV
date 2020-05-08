@@ -5,6 +5,7 @@ import { Observable, Subscription, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CountryService } from '../country.service';
 import { Country } from '../country';
+import { CountryValidationMessages } from '../validation-messages/country-validation-messages';
 import { GenericValidator } from '../../shared/generic-validator/generic-validator';
 import { GenericValidationMessages } from '../../shared/generic-validator/generic-validation-messages';
 
@@ -22,32 +23,14 @@ export class CountryEditComponent implements OnInit {
   country: Country;
   private sub: Subscription;
 
-  // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
+  private countryValidationMessages = new CountryValidationMessages();
 
-
-  constructor(private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private countryService: CountryService) {
-
-    // Defines all of the validation messages for the form.
-    // These could instead be retrieved from a file or database.
-    this.validationMessages = {
-      countryCode: {
-        required: 'Country Code is required ',
-        minlength: 'Country Code must be 3 characters',
-        maxlength: 'Country Code must be 3 characters'
-      },
-      countryName: {
-        required: 'Country Name is required.'
-      }
-    };
-
-    // Define an instance of the validator for use with this form,
-    // passing in this form's set of validation messages.
+  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router, private countryService: CountryService)
+  {
+    this.validationMessages = this.countryValidationMessages.validationMessages;
     this.genericValidator = new GenericValidator(this.validationMessages);
   }
   ngOnInit(): void {
@@ -58,7 +41,6 @@ export class CountryEditComponent implements OnInit {
       countryName: ['', [Validators.required]]
     });
 
-    // Read the product Id from the route parameter
     this.sub = this.route.paramMap.subscribe(
       params => {
         const id = +params.get('id');
@@ -71,9 +53,6 @@ export class CountryEditComponent implements OnInit {
   ngAfterViewInit(): void {
     const controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
-
-    // Merge the blur event observable with the valueChanges observable
-    // so we only need to subscribe once.
     merge(this.countryForm.valueChanges, ...controlBlurs).pipe(
       debounceTime(800)
     ).subscribe(value => {
@@ -91,12 +70,8 @@ export class CountryEditComponent implements OnInit {
 
   displayCountry(country: Country): void {
     if (this.countryForm) this.countryForm.reset();
-
     this.country = country;
-
     this.country.id === 0 ? this.pageTitle = 'Add Country' : this.pageTitle = `Edit Country: ${this.country.countryName}`;
-
-    // Update the data on the form
     this.countryForm.patchValue({
       countryName: this.country.countryName,
       countryCode: this.country.countryCode
@@ -104,7 +79,6 @@ export class CountryEditComponent implements OnInit {
   }
 
   saveCountry(): void {
-
     const genericMessages = new GenericValidationMessages();
     this.errorMessage = genericMessages.generalFormValidationMessage(this.countryForm.valid);
     this.countryForm.dirty ? this.executeCountryOperations() : this.onSaveComplete();
@@ -116,7 +90,7 @@ export class CountryEditComponent implements OnInit {
   }
 
   createCountry(p): void {
-    this.countryService.createCountry(p)
+    this.countryService.create(p)
       .subscribe({
         next: () => this.onSaveComplete(),
         error: err => this.errorMessage = err
@@ -125,7 +99,7 @@ export class CountryEditComponent implements OnInit {
 
   updateCountry(p): void {
     p.id = +this.route.snapshot.params.id;
-    this.countryService.updateCountry(p)
+    this.countryService.update(p)
       .subscribe({
         next: () => this.onSaveComplete(),
         error: err => this.errorMessage = err
@@ -134,7 +108,6 @@ export class CountryEditComponent implements OnInit {
   }
 
   onSaveComplete(): void {
-    // Reset the form to clear the flags
     this.countryForm.reset();
     this.router.navigate(['/countries']);
   }

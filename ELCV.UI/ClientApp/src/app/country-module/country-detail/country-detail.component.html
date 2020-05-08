@@ -18,21 +18,26 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <br />
+    <div class="row md-4">
       <div class="col-md-4">
         <button class="btn btn-outline-secondary mr-3"
                 style="width:80px"
                 (click)="onBack()">
           <i class="fa fa-chevron-left"></i> Back
         </button>
-        <button class="btn btn-outline-primary"
+        <button class="btn btn-outline-primary  mr-3"
                 style="width:80px"
-                [routerLink]="['/countries', country.id, 'edit']">
+                (click)="onEdit()">
           Edit
+        </button>
+        <button class="btn btn-danger"
+                style="width:80px"
+                (click)="onDelete(country.id)">
+          Delete
         </button>
       </div>
     </div>
   </div>
-
-
 </div>
+

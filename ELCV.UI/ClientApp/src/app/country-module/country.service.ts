@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap} from 'rxjs/operators';
 import { Country } from './country';
 import { ServiceBase } from '../shared/services-generic/ServiceBase';
 
@@ -18,8 +18,8 @@ export class CountryService extends ServiceBase<Country>{
   getCountries(): Observable<Country[]> {
     return this.http.get<Country[]>(this.serviceUrl).pipe(catchError(this.handleError));
   }
-  private initializeCountry(): Country {
-    // Return an initialized object
+  private initializeCountry(): Country
+  {
     return {
       id: 0,
       createdByUser: null,
@@ -30,17 +30,10 @@ export class CountryService extends ServiceBase<Country>{
       countryName: null
     };
   }
-  getCountry(id: number): Observable<Country> {
-   return  this.getById(id, this.initializeCountry);
-  }
 
-  createCountry(country: Country): Observable<Country>
-  {
-    const headers = this.jsonHeaders;
-    country.id = 0;
-    this.deleteObjectDateProperties(country);
-    return this.http.post<Country>(this.serviceUrl, country, { headers})
-           .pipe(catchError(this.handleError) );
+  getCountry(id: number): Observable<Country> {
+    if (id === 0)  return of(this.initializeCountry());
+    return  this.getById(id);
   }
 
   deleteCountry(id: number): Observable<{}> {
@@ -53,17 +46,6 @@ export class CountryService extends ServiceBase<Country>{
       );
   }
 
-  updateCountry(country: Country): Observable<Country> {
-    const headers = super.jsonHeaders;
-    return this.http.put<Country>(this.serviceUrl, country, { headers })
-      .pipe(
-        tap(() => console.log('updateCountry: ' + country.id)),
-        // Return the Country on an update
-        map(() => country),
-        catchError(this.handleError)
-      );
-  }
-
-  
+ 
 
 }
