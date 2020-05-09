@@ -4,14 +4,16 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap} from 'rxjs/operators';
 import { Country } from './country';
 import { ServiceBase } from '../shared/services-generic/ServiceBase';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountryService extends ServiceBase<Country>{
  ;
-  constructor(http: HttpClient) {
-    super(http);
+  constructor(http: HttpClient,router: Router) {
+    super(http,router);
+
     this.serviceUrl = 'api/countries';
   }
 

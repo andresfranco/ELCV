@@ -50,7 +50,7 @@ namespace ELCV.UI.Controllers
             try
             {
                 var country = await _repository.GetByIdAsync(id);
-                if (country == null) return NotFound(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
+                if (country == null) return Ok(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
                 var countryDTO = _mapper.Map<CountryDTO>(country);
                 return Ok(countryDTO);
             }

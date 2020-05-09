@@ -1,12 +1,16 @@
 import { throwError, Observable, of } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { GenericRoutes } from '../../shared/generic-routes/generic-routes';
 
 export  class ServiceBase<T> {
   public serviceUrl: string;
   public jsonHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-  constructor(public http: HttpClient) {
-
+  routes = {};
+  genericRoutes=new GenericRoutes(); 
+  constructor(public http: HttpClient, public router: Router ) {
+    this.routes = this.genericRoutes.getRoutesbyRouteName(this.router.config);
   }
   public deleteObjectDateProperties(object:any) {
     delete object.createdDate;
@@ -19,6 +23,12 @@ export  class ServiceBase<T> {
     (err.error instanceof ErrorEvent) ? errorMessage.Message = `An error occurred: ${err.error.message}`
       : errorMessage.Message = `Backend returned code ${err.error.StatusCode}: ${err.error.Message}`;
     return throwError(errorMessage);
+  }
+
+  public handleBackendJsonErrorResponse(statusCode:number) {
+    if (statusCode == 203 || statusCode == 404) {
+      this.router.navigate([this.routes['notFound']]);
+    }
   }
 
   getAll(): Observable<T[]> {
@@ -46,6 +56,7 @@ export  class ServiceBase<T> {
     const url = `${this.serviceUrl}/${id}`;
     return this.http.delete<T>(url, { headers }).pipe(catchError(this.handleError)); 
   }
+
 
  
 }

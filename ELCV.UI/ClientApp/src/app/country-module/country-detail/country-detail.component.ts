@@ -40,14 +40,10 @@ export class CountryDetailComponent implements OnInit
   }
 
   getCountry(id: number) {
-    this.countryService.getCountry(id).subscribe(data => {
+    this.countryService.getCountry(id).subscribe((data:any) => {
+      this.countryService.handleBackendJsonErrorResponse(data.StatusCode);
       this.country = data
       this.recordDescription = "the country: " + this.country.countryName;
-     
-    }, error => {
-        this.alertErrorMessage.title = "Error:";
-        error.statusCode == "404" ?this.alertErrorMessage.errorMessage = "Country Not found"
-          : this.alertErrorMessage.errorMessage = "Unexpected Error: Please contact your system administrator";
     });
   }
 

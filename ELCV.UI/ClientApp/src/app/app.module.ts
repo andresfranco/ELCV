@@ -29,7 +29,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent},
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'not-found', component:NotFoundComponent  },
+      { path: 'not-found', component: NotFoundComponent, data: { routeName: "notFound" } },
     ]),
     CountryModule
   ],
