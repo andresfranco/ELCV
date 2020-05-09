@@ -9,6 +9,8 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CountryModule } from './country-module/country.module';
+import { NotFoundInterceptor } from './interceptors/not-found.interceptor';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -26,11 +28,12 @@ import { CountryModule } from './country-module/country.module';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent},
-      { path: 'fetch-data', component: FetchDataComponent},
+      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'not-found', component:NotFoundComponent  },
     ]),
     CountryModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: NotFoundInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

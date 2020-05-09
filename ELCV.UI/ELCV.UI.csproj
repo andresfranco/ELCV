@@ -32,6 +32,8 @@
     <None Remove="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <None Remove="ClientApp\src\app\country-module\Country.ts" />
     <None Remove="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
+    <None Remove="ClientApp\src\app\interceptors\not-found.interceptor.ts" />
+    <None Remove="ClientApp\src\app\not-found\not-found.component.ts" />
     <None Remove="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModal.ts" />
     <None Remove="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModalLabel.ts" />
     <None Remove="ClientApp\src\app\shared\EntityClassBase.ts" />
@@ -56,6 +58,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\interceptors\not-found.interceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\not-found\not-found.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModal.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\confirm-delete-modal\ConfirmDeleteModalLabel.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\EntityClassBase.ts" />
