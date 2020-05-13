@@ -9,10 +9,11 @@ using ELCV.Core.Common;
 using System.Net;
 using System.Collections.Generic;
 using ELCV.Infrastructure.Data.Repositories;
+using System.Linq;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ELCV.UI.Controllers
 {
-
     public class CountriesController : BaseApiController
     {
         private readonly CountryRepository _repository;
@@ -32,7 +33,7 @@ namespace ELCV.UI.Controllers
             try 
             {
                 var countries = await _repository.FindAllAsync();
-                if(countries == null) return NotFound(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
+                if (countries == null) return  Ok(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
                 var countryDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
                 return Ok(countryDTO);
             }
@@ -67,14 +68,11 @@ namespace ELCV.UI.Controllers
         {
             try
             {    
-                if (ModelState.IsValid)
-                {
-                    var newCountry = _mapper.Map<CountryDTO, Country>(countryData);
-                    newCountry.CreatedDate = DateTimeOffset.UtcNow;
-                    await _repository.CreateAsync(newCountry);
-                    return Ok(newCountry);
-                }
-                 return Json(ModelState);
+                var newCountry = _mapper.Map<CountryDTO, Country>(countryData);
+                newCountry.CreatedDate = DateTimeOffset.UtcNow;
+                await _repository.CreateAsync(newCountry);
+                return Ok(newCountry);
+        
             }
             catch (Exception ex)
             {
@@ -90,21 +88,17 @@ namespace ELCV.UI.Controllers
             try
             {
                 var country = await _repository.GetByIdAsync((int)countryData.Id);
-                if (country == null) return NotFound(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
-                if (ModelState.IsValid)
-                {
-                    var updatedCountry = _mapper.Map<CountryDTO, Country>(countryData,country);
-                    updatedCountry.ModifiedDate = DateTimeOffset.UtcNow;
-                    await _repository.UpdateAsync(updatedCountry);
-                    return Ok(CountryDTO.FromCountry(updatedCountry));
-                }
-                return Json(ModelState);       
+                if (country == null) return Ok(_errorHandler.JsonErrorMessage((int)HttpStatusCode.NotFound));
+                var updatedCountry = _mapper.Map<CountryDTO, Country>(countryData,country);
+                updatedCountry.ModifiedDate = DateTimeOffset.UtcNow;
+                await _repository.UpdateAsync(updatedCountry);
+                return Ok(CountryDTO.FromCountry(updatedCountry));
             }
             catch(Exception ex)
             {
-                return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
+            return BadRequest(_errorHandler.JsonErrorMessage((int)HttpStatusCode.BadRequest, ex.Message));
             }
-            
+
         }
 
         // DELETE api/Countries/{id}

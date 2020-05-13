@@ -26,7 +26,7 @@ export  class ServiceBase<T> {
   }
 
   public handleBackendJsonErrorResponse(statusCode:number) {
-    if (statusCode == 203 || statusCode == 404) {
+    if (statusCode == 203 || statusCode === 404) {
       this.router.navigate([this.routes['notFound']]);
     }
   }

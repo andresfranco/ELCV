@@ -11,6 +11,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { CountryModule } from './country-module/country.module';
 import { NotFoundInterceptor } from './interceptors/not-found.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       { path: 'counter', component: CounterComponent},
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'not-found', component: NotFoundComponent, data: { routeName: "notFound" } },
+      { path: 'server-error', component: ServerErrorComponent, data: { routeName: "serverError" } }
     ]),
     CountryModule
   ],

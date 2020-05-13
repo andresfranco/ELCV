@@ -7,7 +7,7 @@ import {
   HttpEvent
 } from '@angular/common/http';
 
-import { Observable, EMPTY, throwError, of } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from "@angular/router";
 
@@ -19,10 +19,25 @@ export class NotFoundInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status == 404) {
+        if (error instanceof HttpErrorResponse && error.status === 400) {
           this.router.navigate(['/not-found']);
           return EMPTY;
         }
+
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          this.router.navigate(['/not-found']);
+          return EMPTY;
+        }
+        if (error instanceof HttpErrorResponse && error.status === 500) {
+          this.router.navigate(['/server-error']);
+          return EMPTY;
+        }
+
+        if (error instanceof HttpErrorResponse && error.status !== 200) {
+          this.router.navigate(['/server-error']);
+          return EMPTY;
+        }
+
         return EMPTY;
       })
     );

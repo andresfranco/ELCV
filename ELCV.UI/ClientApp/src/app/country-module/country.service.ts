@@ -17,9 +17,6 @@ export class CountryService extends ServiceBase<Country>{
     this.serviceUrl = 'api/countries';
   }
 
-  getCountries(): Observable<Country[]> {
-    return this.http.get<Country[]>(this.serviceUrl).pipe(catchError(this.handleError));
-  }
   private initializeCountry(): Country
   {
     return {
@@ -36,16 +33,6 @@ export class CountryService extends ServiceBase<Country>{
   getCountry(id: number): Observable<Country> {
     if (id === 0)  return of(this.initializeCountry());
     return  this.getById(id);
-  }
-
-  deleteCountry(id: number): Observable<{}> {
-    const headers = super.jsonHeaders;
-    const url = `${this.serviceUrl}/${id}`;
-    return this.http.delete<Country>(url, { headers })
-      .pipe(
-        tap(data => console.log('deleteCountry: ' + id)),
-        catchError(this.handleError)
-      );
   }
 
  
