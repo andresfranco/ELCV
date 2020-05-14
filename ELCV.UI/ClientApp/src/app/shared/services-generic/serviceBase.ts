@@ -46,9 +46,21 @@ export  class ServiceBase<T> {
     return this.http.post<T>(this.serviceUrl, entity, { headers }).pipe(catchError(this.handleError));
   }
 
+  createWithValidation(entity: any): Observable<T> {
+    const headers = this.jsonHeaders;
+    entity.id = 0;
+    this.deleteObjectDateProperties(entity);
+    return this.http.post<T>(this.serviceUrl, entity, { headers }).pipe(map((data: any) => { return data; }), catchError(this.handleError));
+  }
+
   update(entity:any): Observable<T> {
     const headers = this.jsonHeaders;
     return this.http.put<T>(this.serviceUrl, entity, { headers }).pipe(map(() => entity), catchError(this.handleError));                       
+  }
+
+  updateWithValidation(entity: any): Observable<T> {
+    const headers = this.jsonHeaders;
+    return this.http.put<T>(this.serviceUrl, entity, { headers }).pipe(map((data: any) => { return data; }), catchError(this.handleError));
   }
 
   delete(id: number): Observable<{}> {

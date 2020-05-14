@@ -8,7 +8,8 @@ import { Country } from '../country';
 import { CountryValidationMessages } from '../validation-messages/country-validation-messages';
 import { GenericValidator } from '../../shared/generic-validator/generic-validator';
 import { GenericValidationMessages } from '../../shared/generic-validator/generic-validation-messages';
-
+import { GenericRoutes } from '../../shared/generic-routes/generic-routes';
+import { countryCrudLabels } from '../country-labels/country-labels';
 @Component({
   selector: 'app-country-edit',
   templateUrl: './country-edit.component.html',
@@ -17,16 +18,19 @@ import { GenericValidationMessages } from '../../shared/generic-validator/generi
 export class CountryEditComponent implements OnInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-  pageTitle = 'Edit Country';
+  pageTitle = "";
   errorMessage: string;
   countryForm: FormGroup;
   country: Country;
   private sub: Subscription;
-
+  errorMessages: any[] = null;
   displayMessage: { [key: string]: string } = {};
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
   private countryValidationMessages = new CountryValidationMessages();
+  genericRoutes = new GenericRoutes();
+  routes = {};
+  listRoute = "";
 
   constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router, private countryService: CountryService)
   {
@@ -46,6 +50,9 @@ export class CountryEditComponent implements OnInit {
         const id = +params.get('id');
         this.getCountry(id);
       });
+
+    this.routes = this.genericRoutes.getRoutesbyRouteName(this.router.config);
+    this.listRoute = this.routes['countryList'];
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
@@ -71,7 +78,7 @@ export class CountryEditComponent implements OnInit {
   displayCountry(country: Country): void {
     if (this.countryForm) this.countryForm.reset();
     this.country = country;
-    this.country.id === 0 ? this.pageTitle = 'Add Country' : this.pageTitle = `Edit Country: ${this.country.countryName}`;
+    this.country.id === 0 ? this.pageTitle = countryCrudLabels.addTitleLabel : this.pageTitle = `${countryCrudLabels.editTitleLabel}: ${this.country.countryName}`;
     this.countryForm.patchValue({
       countryName: this.country.countryName,
       countryCode: this.country.countryCode
@@ -90,26 +97,37 @@ export class CountryEditComponent implements OnInit {
   }
 
   createCountry(p): void {
-    this.countryService.create(p)
-      .subscribe({
-        next: () => this.onSaveComplete(),
-        error: err => this.errorMessage = err
-      });
+    this.countryService.createWithValidation(p)
+      .subscribe((data: any) => {
+        this.validateUpdatedData(data);
+      }, error => { this.errorMessage = error });
   }
 
   updateCountry(p): void {
     p.id = +this.route.snapshot.params.id;
-    this.countryService.update(p)
-      .subscribe({
-        next: () => this.onSaveComplete(),
-        error: err => this.errorMessage = err
-      });
-
+    this.countryService.updateWithValidation(p).subscribe((data: any) =>
+    {
+      this.validateUpdatedData(data);
+    }, error => { this.errorMessage = error });
+      
   }
+
+  private validateUpdatedData(data: any) {
+    const errors = [];
+    if (!data.id) {
+            for (let key in data) {
+                errors.push(data[key]);
+            }
+            this.errorMessages = errors;
+        }
+        else {
+            this.onSaveComplete();
+        }
+    }
 
   onSaveComplete(): void {
     this.countryForm.reset();
-    this.router.navigate(['/countries']);
+    this.router.navigate([this.listRoute]);
   }
 
 }

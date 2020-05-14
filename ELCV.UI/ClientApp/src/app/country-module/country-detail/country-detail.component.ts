@@ -5,7 +5,8 @@ import { CountryService } from '../country.service';
 import { ConfirmDeleteModalComponent } from '../../shared/confirm-delete-modal/confirm-delete-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericRoutes } from '../../shared/generic-routes/generic-routes';
-import { EMPTY } from 'rxjs';
+import { countryCrudLabels } from '../country-labels/country-labels';
+
 @Component({
   selector: 'app-country-detail',
   templateUrl: './country-detail.component.html',
@@ -13,7 +14,7 @@ import { EMPTY } from 'rxjs';
 })
 export class CountryDetailComponent implements OnInit
 {
-  pageTitle = "";
+  pageTitle = countryCrudLabels.detailTitlelabel;
   errorMessage = '';
   alertErrorMessage = { title: "", errorMessage:""}
   country: Country | undefined;
@@ -28,7 +29,6 @@ export class CountryDetailComponent implements OnInit
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get('id');
-    this.pageTitle = "Country Detail";
     if (param) {
       const id = +param;
       this.getCountry(id);
@@ -43,7 +43,7 @@ export class CountryDetailComponent implements OnInit
     this.countryService.getCountry(id).subscribe((data:any) => {
       this.countryService.handleBackendJsonErrorResponse(data.StatusCode);
       this.country = data
-      this.recordDescription = "the country: " + this.country.countryName;
+      this.recordDescription = `${countryCrudLabels}:` + this.country.countryName;
     });
   }
 
@@ -59,7 +59,7 @@ export class CountryDetailComponent implements OnInit
   }
   onDelete(id: number): void {
     const confirmDeleteModal = this._modalService.open(ConfirmDeleteModalComponent);
-    confirmDeleteModal.componentInstance.modalData = { title: "Delete Country", recordName: this.recordDescription };
+    confirmDeleteModal.componentInstance.modalData = { title: countryCrudLabels.deleteTitleLabel, recordName: this.recordDescription };
     confirmDeleteModal.result.then(
       (data: string) => {
         if (data === "delete") this.deleteCountry(id);

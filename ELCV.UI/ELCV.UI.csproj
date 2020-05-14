@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\country-module\country-labels\country-labels.ts" />
     <None Remove="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <None Remove="ClientApp\src\app\country-module\Country.ts" />
     <None Remove="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
@@ -55,6 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\country-module\country-labels\country-labels.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country-routes\country-routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\country.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\country-module\validation-messages\country-validation-messages.ts" />
