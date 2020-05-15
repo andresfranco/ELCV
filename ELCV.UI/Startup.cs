@@ -11,6 +11,7 @@ using System.Reflection;
 using ELCV.Core.Common;
 using ELCV.Core.Interfaces;
 using ELCV.Infrastructure.Data.Repositories;
+using System;
 
 namespace ELCV.UI
 {
@@ -27,8 +28,16 @@ namespace ELCV.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<ELCVContext>(options =>
-             options.UseSqlServer(Configuration.GetConnectionString("ELCVConnectionString")));
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")=="Production")
+                services.AddDbContext<ELCVContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ELCVConnectionStringProd")));
+            else
+                services.AddDbContext<ELCVContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ELCVConnectionString")));
+
+            services.BuildServiceProvider().GetService<ELCVContext>().Database.Migrate();
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfAsyncRepository<>));
             services.AddScoped<CountryRepository>();
