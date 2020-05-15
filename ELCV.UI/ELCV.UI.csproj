@@ -47,7 +47,7 @@
     <None Remove="ClientApp\src\app\shared\generic-validator\generic-validator.ts" />
     <None Remove="ClientApp\src\app\shared\generic-validator\number.validator.ts" />
     <None Remove="ClientApp\src\app\shared\IGenericMessage.ts" />
-    <None Remove="ClientApp\src\app\shared\services-generic\ServiceBase.ts" />
+    <None Remove="ClientApp\src\app\shared\services-generic\service-base.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,7 +74,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-validation-messages.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\generic-validator.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\generic-validator\number.validator.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\shared\services-generic\serviceBase.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services-generic\service-base.ts" />
   </ItemGroup>
 
   <ItemGroup>
